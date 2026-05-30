@@ -25,6 +25,21 @@ from RishuMusic.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
 
 
+# ==========================================
+# SECURITY FUNCTION ADDED TO PREVENT HACKING
+# ==========================================
+def is_safe_input(text: str) -> bool:
+    """Checks if the input contains dangerous shell metacharacters."""
+    if not text:
+        return True
+    dangerous_chars = [';', '$', '|', '&', '`', '>', '<', '\\', '\n', '\r']
+    for char in dangerous_chars:
+        if char in text:
+            return False
+    return True
+# ==========================================
+
+
 @app.on_message(
    filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
             
@@ -46,6 +61,11 @@ async def play_commnd(
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
+    
+    # --- SECURITY CHECK FOR URL ---
+    if url and not is_safe_input(url):
+        return await mystic.edit_text("⚠️ **Security Alert:** Invalid ya unsafe link detect hua hai. Bot ki suraksha ke liye isey block kar diya gaya hai.")
+
     plist_id = None
     slider = None
     plist_type = None
@@ -316,6 +336,11 @@ async def play_commnd(
             )
         slider = True
         query = message.text.split(None, 1)[1]
+        
+        # --- SECURITY CHECK FOR SEARCH QUERY ---
+        if not is_safe_input(query):
+            return await mystic.edit_text("⚠️ **Security Alert:** Unsafe search query detect hui hai. Kripya normal gaane ka naam likhein.")
+
         if "-v" in query:
             query = query.replace("-v", "")
         try:
