@@ -9,7 +9,7 @@ API_ID = int(getenv("API_ID"))
 API_HASH = getenv("API_HASH")
 
 BOT_TOKEN = getenv("BOT_TOKEN")
-MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "Pari Music")
+MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "Raagini Music")
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
 LOGGER_ID = int(getenv("LOGGER_ID", ""))
